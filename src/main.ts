@@ -1,3 +1,5 @@
+///<reference path="typings.d.ts"/>
+
 import './polyfills';
 
 import { enableProdMode } from '@angular/core';
