@@ -4,7 +4,12 @@ import { Instance, SignalData } from 'simple-peer'
 @Component({
   selector: 'app-recording',
   templateUrl: './recording.component.html',
-  styleUrls: ['./recording.component.scss']
+  styleUrls: [
+    './recording.component.scss',
+    '../../../node_modules/video.js/dist/video-js.css',
+    '../../../node_modules/videojs-wavesurfer/dist/css/videojs.wavesurfer.css',
+    '../../../node_modules/videojs-record/dist/css/videojs.record.css'
+  ]
 })
 export class RecordingComponent implements OnInit {
 
@@ -50,9 +55,7 @@ export class RecordingComponent implements OnInit {
     connect() {
       this.peer.signal(this.targetpeer);
     }
-    message() {
-      this.peer.send('Hello world');
-    }
+
     @ViewChild('myvideo', {static: true}) videoElementRef: ElementRef;
     get videoElement(): HTMLVideoElement {
       return this.videoElementRef.nativeElement

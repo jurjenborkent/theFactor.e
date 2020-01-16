@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { VideoJSRecordComponent } from './videojs.record.component';
 
 import { HomeComponent } from './home/home.component';
 import { NoteComponent } from './note/note.component';
@@ -38,7 +39,8 @@ import { RecordingComponent } from './recording/recording.component';
     NewTestComponent,
     NewTesterComponent,
     TosComponent,
-    RecordingComponent
+    RecordingComponent,
+    VideoJSRecordComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +48,6 @@ import { RecordingComponent } from './recording/recording.component';
     FormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent,VideoJSRecordComponent]
 })
 export class AppModule { }
