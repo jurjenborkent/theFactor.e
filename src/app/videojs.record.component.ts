@@ -18,11 +18,16 @@ import * as Record from 'videojs-record/dist/videojs.record.js';
     <style>
     /* change player background color */
     .video-js video {
-         background-color: #42f489;
+         background-color: firebrick;
     }
     </style>
     <video id="video_{{idx}}" class="video-js vjs-default-skin" playsinline></video>
-    `
+    `,
+    styleUrls: [
+      '../../node_modules/video.js/dist/video-js.css',
+      '../../node_modules/videojs-wavesurfer/dist/css/videojs.wavesurfer.css',
+      '../../node_modules/videojs-record/dist/css/videojs.record.css'
+    ]
 })
 
 export class VideoJSRecordComponent implements OnInit, OnDestroy {
@@ -58,9 +63,8 @@ export class VideoJSRecordComponent implements OnInit, OnDestroy {
       plugins: {
         // configure videojs-record plugin
         record: {
-          audio: false,
-          video: true,
-          debug: true
+          audio: true,
+          video: true
         }
       }
     };

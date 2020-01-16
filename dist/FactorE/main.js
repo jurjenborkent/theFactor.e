@@ -3602,7 +3602,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\n<div class=\"row\">\n  <div class=\"col d-flex justify-content-center\">\n      <video #myvideo autoplay controls class=\"video mb-2\" style=\"width:100%\"></video>\n  </div>\n</div>\n<div class=\"row\">\n  <div class=\"col d-flex justify-content-center\">\n      <input type=\"text\" class=\"form-control-sm mr-1\" [(ngModel)]=\"targetpeer\">\n      <button class=\"btn btn-success\" (click)=\"connect()\">Connect</button>\n  </div>\n</div>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<videojs-record></videojs-record>\n<!-- <div class=\"row\">\n  <div class=\"col d-flex justify-content-center\">\n      <video #myvideo autoplay controls class=\"video mb-2\" style=\"width:100%\"></video>\n  </div>\n</div>\n<div class=\"row\">\n  <div class=\"col d-flex justify-content-center\">\n      <input type=\"text\" class=\"form-control-sm mr-1\" [(ngModel)]=\"targetpeer\">\n      <button class=\"btn btn-success\" (click)=\"connect()\">Connect</button>\n  </div>\n</div> -->\n");
 
 /***/ }),
 
@@ -7607,7 +7607,7 @@ var AppModule = /** @class */ (function () {
                 _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"]
             ],
             providers: [],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"], _videojs_record_component__WEBPACK_IMPORTED_MODULE_6__["VideoJSRecordComponent"]]
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
@@ -8088,7 +8088,7 @@ var RecordingComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-recording',
             template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! raw-loader!./recording.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/recording/recording.component.html")).default,
-            styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./recording.component.scss */ "./src/app/recording/recording.component.scss")).default, tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ../../../node_modules/video.js/dist/video-js.css */ "./node_modules/video.js/dist/video-js.css")).default, tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ../../../node_modules/videojs-wavesurfer/dist/css/videojs.wavesurfer.css */ "./node_modules/videojs-wavesurfer/dist/css/videojs.wavesurfer.css")).default, tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ../../../node_modules/videojs-record/dist/css/videojs.record.css */ "./node_modules/videojs-record/dist/css/videojs.record.css")).default]
+            styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./recording.component.scss */ "./src/app/recording/recording.component.scss")).default]
         })
     ], RecordingComponent);
     return RecordingComponent;
@@ -8425,9 +8425,8 @@ var VideoJSRecordComponent = /** @class */ (function () {
             plugins: {
                 // configure videojs-record plugin
                 record: {
-                    audio: false,
-                    video: true,
-                    debug: true
+                    audio: true,
+                    video: true
                 }
             }
         };
@@ -8483,7 +8482,8 @@ var VideoJSRecordComponent = /** @class */ (function () {
     VideoJSRecordComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'videojs-record',
-            template: "\n    <style>\n    /* change player background color */\n    .video-js video {\n         background-color: #42f489;\n    }\n    </style>\n    <video id=\"video_{{idx}}\" class=\"video-js vjs-default-skin\" playsinline></video>\n    "
+            template: "\n    <style>\n    /* change player background color */\n    .video-js video {\n         background-color: firebrick;\n    }\n    </style>\n    <video id=\"video_{{idx}}\" class=\"video-js vjs-default-skin\" playsinline></video>\n    ",
+            styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ../../node_modules/video.js/dist/video-js.css */ "./node_modules/video.js/dist/video-js.css")).default, tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ../../node_modules/videojs-wavesurfer/dist/css/videojs.wavesurfer.css */ "./node_modules/videojs-wavesurfer/dist/css/videojs.wavesurfer.css")).default, tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ../../node_modules/videojs-record/dist/css/videojs.record.css */ "./node_modules/videojs-record/dist/css/videojs.record.css")).default]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"]])
     ], VideoJSRecordComponent);
