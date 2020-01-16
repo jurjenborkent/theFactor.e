@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Instance, SignalData } from 'simple-peer'
 
+import { VideoJSRecordComponent } from './videojs.record.component'
+
 @Component({
   selector: 'app-recording',
   templateUrl: './recording.component.html',

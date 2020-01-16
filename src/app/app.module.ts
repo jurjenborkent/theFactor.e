@@ -48,6 +48,6 @@ import { RecordingComponent } from './recording/recording.component';
     FormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent,VideoJSRecordComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
