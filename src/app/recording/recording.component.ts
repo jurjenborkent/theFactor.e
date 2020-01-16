@@ -15,21 +15,29 @@ export class RecordingComponent implements OnInit {
     peer: any;
     stream: MediaStream
 
-    async ngOnInit() {
+    async ngOnInit() {}
+    connect() {
+      this.peer.signal(this.targetpeer);
+    }
+
+
+    async startCapture() {
       try {
         const SimplePeer = require('simple-peer')
         const wrtc = require('wrtc')
 
         // This peer is the initiator and transfering the streaming to the other connected peer
-        if (location.hash === '#init') {
-          let stream = await navigator.mediaDevices.getUserMedia({ video: true })
+        if (location.hash === '#/recording#init') {
+          let webcam = await navigator.mediaDevices.getUserMedia({ video: true, audio:true })
+          let screenRecord = await navigator.mediaDevices.getDisplayMedia({ video: { cursor:"motion" } })
           this.peer = new SimplePeer({
-            initiator: location.hash === '#init',
-            stream: stream,
+            initiator: location.hash === '#/recording#init',
+            stream: screenRecord,
             wrtc: wrtc,
             trickle: false
           })
-          this.videoElement.srcObject = stream
+          this.videoElement.srcObject = webcam
+          this.videoElement2.srcObject = screenRecord
         }
         else {
           this.peer = new SimplePeer({ wrtc:wrtc })
@@ -50,12 +58,26 @@ export class RecordingComponent implements OnInit {
         console.error('ERROR',error)
       }
     }
-    connect() {
-      this.peer.signal(this.targetpeer);
+    stopCapture() {
+      if(this.videoElement.srcObject){
+        let webcamTracks = (<MediaStream>this.videoElement.srcObject).getTracks();
+        let screenRecordTracks = (<MediaStream>this.videoElement2.srcObject).getTracks();
+
+        webcamTracks.forEach(track => track.stop());
+        screenRecordTracks.forEach(track => track.stop());
+
+        this.videoElement.srcObject = null;
+        this.videoElement2.srcObject = null;
+      }
     }
+
 
     @ViewChild('myvideo', {static: true}) videoElementRef: ElementRef;
     get videoElement(): HTMLVideoElement {
       return this.videoElementRef.nativeElement
+    }
+    @ViewChild('myvideo2', {static: true}) videoElementRef2: ElementRef;
+    get videoElement2(): HTMLVideoElement {
+      return this.videoElementRef2.nativeElement
     }
   }

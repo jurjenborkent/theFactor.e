@@ -24,9 +24,8 @@ import * as Record from 'videojs-record/dist/videojs.record.js';
     <video id="video_{{idx}}" class="video-js vjs-default-skin" playsinline></video>
     `,
     styleUrls: [
-      '../../node_modules/video.js/dist/video-js.css',
-      '../../node_modules/videojs-wavesurfer/dist/css/videojs.wavesurfer.css',
-      '../../node_modules/videojs-record/dist/css/videojs.record.css'
+      './node_modules/video.js/dist/video-js.css',
+      './node_modules/videojs-record/dist/css/videojs.record.css'
     ]
 })
 
@@ -108,7 +107,7 @@ export class VideoJSRecordComponent implements OnInit, OnDestroy {
 
     // error handling
     this.player.on('error', (element, error) => {
-      console.warn(error);
+      console.error(error);
     });
 
     this.player.on('deviceError', () => {
