@@ -10,12 +10,12 @@ import { Instance, SignalData } from 'simple-peer'
   ]
 })
 export class RecordingComponent implements OnInit {
-
-    targetpeer: any;
+    
+  targetpeer: any;
     peer: any;
     stream: MediaStream
     mediaRecorder: any
-    recordedChunks: any[] = []
+    recordedChunks: BlobPart[] = new Array()
 
     async ngOnInit() {}
 
@@ -40,8 +40,9 @@ export class RecordingComponent implements OnInit {
           var options = { mimeType: "video/webm; codecs=vp9" };
           this.mediaRecorder = new MediaRecorder(screenRecord, options);
 
-          this.mediaRecorder.ondataavailable = function ( event ){
-              if (event.data.size > 0) {
+          this.mediaRecorder.ondataavailable = (event) => {
+            console.log("data-available");
+            if (event.data.size > 0) {
                 this.recordedChunks.push(event.data);
                 console.log(this.recordedChunks);
                 this.download();
@@ -50,12 +51,12 @@ export class RecordingComponent implements OnInit {
           this.mediaRecorder.start();
         }
         else {
-          this.peer = new SimplePeer()
-          console.log("peeeer")
+          this.peer = new SimplePeer({wrtc: wrtc})
+
         }
 
         this.peer.on('signal', function (data) {
-          console.log("SIGNAL",JSON.stringify(data));
+          console.log(JSON.stringify(data));
         })
         this.peer.on('data', (data) => {
           console.log('Received Data: ' + data)
@@ -67,8 +68,6 @@ export class RecordingComponent implements OnInit {
         console.error('ERROR',error)
       }
     }
-
-
     connect() {
       this.peer.signal(this.targetpeer);
     }
@@ -81,7 +80,7 @@ export class RecordingComponent implements OnInit {
       document.body.appendChild(a);
       a.style.display = "none";
       a.href = url;
-      a.download = "test.webm";
+      a.download = "screencapture.webm";
       a.click();
       window.URL.revokeObjectURL(url);
     }
@@ -101,8 +100,6 @@ export class RecordingComponent implements OnInit {
         this.mediaRecorder.stop();
       }
     }
-
-
     @ViewChild('myvideo', {static: true}) videoElementRef: ElementRef;
     get videoElement(): HTMLVideoElement {
       return this.videoElementRef.nativeElement
