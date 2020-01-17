@@ -14,48 +14,101 @@ export class RecordingComponent implements OnInit {
     targetpeer: any;
     peer: any;
     stream: MediaStream
+    mediaRecorder: any
+    recordedChunks: any[] = []
 
-    async ngOnInit() {
+    async ngOnInit() {}
+
+    async startCapture() {
       try {
         const SimplePeer = require('simple-peer')
         const wrtc = require('wrtc')
 
-        // This peer is the initiator and transfering the streaming to the other connected peer
-        if (location.hash === '#init') {
-          let stream = await navigator.mediaDevices.getUserMedia({ video: true })
+        if (location.hash === '#/recording#init') {
+          let webcam = await navigator.mediaDevices.getUserMedia({ video: true, audio:true })
+          let screenRecord = await navigator.mediaDevices.getDisplayMedia({ video: { cursor:"motion" } })
           this.peer = new SimplePeer({
-            initiator: location.hash === '#init',
-            stream: stream,
+            initiator: location.hash === '#/recording#init',
+            stream: screenRecord,
             wrtc: wrtc,
             trickle: false
           })
-          this.videoElement.srcObject = stream
+          this.videoElement.srcObject = webcam
+          this.videoElement2.srcObject = screenRecord
+
+
+          var options = { mimeType: "video/webm; codecs=vp9" };
+          this.mediaRecorder = new MediaRecorder(screenRecord, options);
+
+          this.mediaRecorder.ondataavailable = function ( event ){
+              if (event.data.size > 0) {
+                this.recordedChunks.push(event.data);
+                console.log(this.recordedChunks);
+                this.download();
+              }
+          }
+          this.mediaRecorder.start();
         }
         else {
-          this.peer = new SimplePeer({ wrtc:wrtc })
+          this.peer = new SimplePeer()
+          console.log("peeeer")
         }
-        // triggers when signal is sent from remote
+
         this.peer.on('signal', function (data) {
-          console.log(JSON.stringify(data));
+          console.log("SIGNAL",JSON.stringify(data));
         })
         this.peer.on('data', (data) => {
           console.log('Received Data: ' + data)
         })
         this.peer.on('stream', (stream) => {
-          // got remote video stream, now let's show it in a video tag
           this.videoElement.srcObject = stream
-
         })
       } catch (error) {
         console.error('ERROR',error)
       }
     }
+
+
     connect() {
       this.peer.signal(this.targetpeer);
     }
+    download() {
+      var blob = new Blob(this.recordedChunks, {
+        type: "video/webm"
+      });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      document.body.appendChild(a);
+      a.style.display = "none";
+      a.href = url;
+      a.download = "test.webm";
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+
+    stopCapture() {
+      if(this.videoElement.srcObject){
+        let webcamTracks = (<MediaStream>this.videoElement.srcObject).getTracks();
+        let screenRecordTracks = (<MediaStream>this.videoElement2.srcObject).getTracks();
+
+        webcamTracks.forEach(track => track.stop());
+        screenRecordTracks.forEach(track => track.stop());
+
+        this.videoElement.srcObject = null;
+        this.videoElement2.srcObject = null;
+
+
+        this.mediaRecorder.stop();
+      }
+    }
+
 
     @ViewChild('myvideo', {static: true}) videoElementRef: ElementRef;
     get videoElement(): HTMLVideoElement {
       return this.videoElementRef.nativeElement
+    }
+    @ViewChild('myvideo2', {static: true}) videoElementRef2: ElementRef;
+    get videoElement2(): HTMLVideoElement {
+      return this.videoElementRef2.nativeElement
     }
   }

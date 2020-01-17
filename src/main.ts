@@ -1,4 +1,5 @@
 ///<reference path="typings.d.ts"/>
+/// <reference types="@types/dom-mediacapture-record" />
 
 import './polyfills';
 
