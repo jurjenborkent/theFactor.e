@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Instance, SignalData } from 'simple-peer'
+
+import {customPIP} from '../../assets/js/pip.js'
+
 
 @Component({
   moduleId: module.id,
@@ -10,8 +12,8 @@ import { Instance, SignalData } from 'simple-peer'
   ]
 })
 export class RecordingComponent implements OnInit {
-    
-  targetpeer: any;
+
+    targetpeer: any;
     peer: any;
     stream: MediaStream
     mediaRecorder: any
@@ -84,7 +86,6 @@ export class RecordingComponent implements OnInit {
       a.click();
       window.URL.revokeObjectURL(url);
     }
-
     stopCapture() {
       if(this.videoElement.srcObject){
         let webcamTracks = (<MediaStream>this.videoElement.srcObject).getTracks();
@@ -100,6 +101,19 @@ export class RecordingComponent implements OnInit {
         this.mediaRecorder.stop();
       }
     }
+
+    async PIP(){
+      const togglePipButton = this.btnElement
+      const video = this.videoElement
+
+      var pip = new customPIP(video, togglePipButton)
+    }
+
+    @ViewChild('mybutton', {static: true}) btnElementRef: ElementRef;
+    get btnElement(): any {
+      return this.btnElementRef.nativeElement
+    }
+
     @ViewChild('myvideo', {static: true}) videoElementRef: ElementRef;
     get videoElement(): HTMLVideoElement {
       return this.videoElementRef.nativeElement

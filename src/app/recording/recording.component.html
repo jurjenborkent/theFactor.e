@@ -1,7 +1,7 @@
-<!-- <videojs-record></videojs-record> -->
 <div class="row">
-  <div class="col d-flex justify-content-center">
-      <video #myvideo autoplay controls class="video mb-2" style="width:100%"></video>
+  <div class="col d-flex justify-content-center" style="position:relative">
+      <video #myvideo autoplay autoPictureInPicture class="video mb-2" style="width:100%"></video>
+      <button #mybutton class="pipbtn" (click)="PIP()"></button>
       <video #myvideo2 autoplay controls class="video mb-2" style="width:100%"></video>
   </div>
 </div>
