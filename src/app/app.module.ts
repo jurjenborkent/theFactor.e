@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { VideoJSRecordComponent } from './videojs.record.component';
+import { HeaderComponent }   from './header/header.component';
+import { NavigationComponent }   from './navigation/navigation.component';
 
 import { HomeComponent } from './home/home.component';
 import { NoteComponent } from './note/note.component';
@@ -25,6 +26,7 @@ import { RecordingComponent } from './recording/recording.component';
 @NgModule({
   declarations: [
     AppComponent,
+    HeaderComponent,
     HomeComponent,
     NoteComponent,
     QuestionComponent,
@@ -40,7 +42,7 @@ import { RecordingComponent } from './recording/recording.component';
     NewTesterComponent,
     TosComponent,
     RecordingComponent,
-    VideoJSRecordComponent
+    NavigationComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +50,10 @@ import { RecordingComponent } from './recording/recording.component';
     FormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent,
+    HeaderComponent,
+    NavigationComponent
+  ]
 })
 export class AppModule { }

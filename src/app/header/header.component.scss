@@ -1,0 +1,23 @@
+.header-main {
+    background-color: #171717;
+    min-height: 60px;
+    height: 60px;
+    -ms-flex: 0 0 60px;
+    flex: 0 0 60px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    width: 100vw;
+    padding: 0;
+}
+.logo{
+  padding:15px;
+}
+.logo svg{
+  fill:#FFF;
+  width:120px;
+}
