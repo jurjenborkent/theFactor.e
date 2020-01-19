@@ -1,5 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Injectable } from '@angular/core';
 import { Instance, SignalData } from 'simple-peer'
+import { WebSocketService } from '../web-socket.service';
+import { Observable, Subject } from 'rxjs'
+import { listenerCount } from 'cluster';
+import { map } from 'rxjs/operators';
+import { JsonshareService } from '../jsonshare.service'
 
 @Component({
   moduleId: module.id,
@@ -9,15 +14,28 @@ import { Instance, SignalData } from 'simple-peer'
     'recording.component.scss'
   ]
 })
+
+@Injectable()
 export class RecordingComponent implements OnInit {
     
-  targetpeer: any;
+    targetpeer: any;
     peer: any;
-    stream: MediaStream
-    mediaRecorder: any
-    recordedChunks: BlobPart[] = new Array()
+    stream: MediaStream;
+    mediaRecorder: any;
+    recordedChunks: BlobPart[] = new Array();
+    messages: Subject<any>;
 
-    async ngOnInit() {}
+    constructor(private jsonshare: JsonshareService) {}
+    
+    async ngOnInit() {
+    this.jsonshare.messages.subscribe(msg => {
+      console.log(msg);
+    })
+    }
+
+    sendMessage() {
+      this.jsonshare.sendMsg("Test Message");
+    }
 
     async startCapture() {
       try {
@@ -52,11 +70,11 @@ export class RecordingComponent implements OnInit {
         }
         else {
           this.peer = new SimplePeer({wrtc: wrtc})
-
         }
 
         this.peer.on('signal', function (data) {
           console.log(JSON.stringify(data));
+          
         })
         this.peer.on('data', (data) => {
           console.log('Received Data: ' + data)

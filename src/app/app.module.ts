@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { JsonshareService } from './jsonshare.service';
+import { WebSocketService } from './web-socket.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -47,7 +49,7 @@ import { RecordingComponent } from './recording/recording.component';
     AppRoutingModule,
     FormsModule
   ],
-  providers: [],
+  providers: [JsonshareService, WebSocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
