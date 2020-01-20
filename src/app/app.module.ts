@@ -21,6 +21,12 @@ import { NewTestComponent } from './new-test/new-test.component';
 import { NewTesterComponent } from './new-tester/new-tester.component';
 import { TosComponent } from './tos/tos.component';
 import { RecordingComponent } from './recording/recording.component';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment'
+
+
+
 
 @NgModule({
   declarations: [
@@ -45,7 +51,9 @@ import { RecordingComponent } from './recording/recording.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

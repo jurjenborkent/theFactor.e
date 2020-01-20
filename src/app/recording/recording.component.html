@@ -12,3 +12,10 @@
   </div>
 </div>
 <p><button (click)="startCapture()">Start Capture</button>&nbsp;<button (click)="stopCapture()">Stop Capture</button></p>
+
+
+<ul>
+  <li class="text" *ngFor="let item of items | async">
+    {{item.name}}
+  </li>
+</ul>

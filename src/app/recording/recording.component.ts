@@ -1,5 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Instance, SignalData } from 'simple-peer'
+import { Instance, SignalData } from 'simple-peer';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+
+interface ConnectObject {
+  content: string;
+  id?: any;
+}
 
 @Component({
   moduleId: module.id,
@@ -17,15 +24,21 @@ export class RecordingComponent implements OnInit {
     mediaRecorder: any
     recordedChunks: BlobPart[] = new Array()
 
-    async ngOnInit() {}
-
+    items: Observable<any[]>;
+   
+    constructor(db: AngularFirestore) {
+      this.items = db.collection('items').valueChanges();
+    }
+    ngOnInit() {
+    }
+ 
     async startCapture() {
       try {
         const SimplePeer = require('simple-peer')
         const wrtc = require('wrtc')
 
         if (location.hash === '#/recording#init') {
-          let webcam = await navigator.mediaDevices.getUserMedia({ video: true, audio:true })
+          // let webcam = await navigator.mediaDevices.getUserMedia({ video: true, audio:true })
           let screenRecord = await navigator.mediaDevices.getDisplayMedia({ video: { cursor:"motion" } })
           this.peer = new SimplePeer({
             initiator: location.hash === '#/recording#init',
@@ -33,7 +46,7 @@ export class RecordingComponent implements OnInit {
             wrtc: wrtc,
             trickle: false
           })
-          this.videoElement.srcObject = webcam
+          // this.videoElement.srcObject = webcam
           this.videoElement2.srcObject = screenRecord
 
 
@@ -57,6 +70,7 @@ export class RecordingComponent implements OnInit {
 
         this.peer.on('signal', function (data) {
           console.log(JSON.stringify(data));
+
         })
         this.peer.on('data', (data) => {
           console.log('Received Data: ' + data)
