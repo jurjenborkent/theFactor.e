@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   moduleId: module.id,
@@ -8,4 +9,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'FactorE';
+  constructor(public router: Router) { }
+  isFullscreenPage(){
+    switch(this.router.url){
+      case '/login':
+      case '/register':
+      case '/forgotPassword':
+        return false
+    }
+    return true
+  }
 }
