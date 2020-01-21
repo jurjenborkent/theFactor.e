@@ -21,8 +21,9 @@ import { NewTestComponent } from './new-test/new-test.component';
 import { NewTesterComponent } from './new-tester/new-tester.component';
 import { TosComponent } from './tos/tos.component';
 import { RecordingComponent } from './recording/recording.component';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../environments/environment'
 
 
@@ -53,7 +54,7 @@ import { environment } from '../environments/environment'
     AppRoutingModule,
     FormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule
+    AngularFireDatabaseModule
   ],
   providers: [],
   bootstrap: [AppComponent]
