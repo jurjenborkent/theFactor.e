@@ -1,0 +1,40 @@
+@import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@font-face {
+  font-family: Akkurat;
+  src: url('./src/assets/Akkurat.ttf');
+}
+*{
+  font-family: Akkurat;
+}
+
+.profile-block{
+  box-shadow: 0 4px 19px 0 rgba(0, 0, 0, 0.15);
+  margin:15px 0;
+  padding-right:15px;
+  width: fit-content;
+  text-align: left;
+}
+.profile-block .img{
+  margin: 7px;
+  display: inline-block;
+}
+.profile-block .text{
+  display: inline-block;
+  vertical-align: middle;
+  margin-left:7px;
+}
+.home-block {
+  text-align: center;
+  box-shadow: 0 4px 19px 0 rgba(0, 0, 0, 0.15);
+  padding:25px;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+.home-block:hover {
+  cursor: pointer;
+}
+
+.home-block figcaption {
+  font-weight: 900;
+  margin-top:25px;
+}
