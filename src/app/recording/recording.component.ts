@@ -1,11 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Instance, SignalData } from 'simple-peer';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { AnyTxtRecord } from 'dns';
 import { Observable } from 'rxjs'
-
-
-
+import { Router } from '@angular/router';
 
 @Component({
   moduleId: module.id,
@@ -31,40 +27,39 @@ export class RecordingComponent implements OnInit {
   SimplePeer = require('simple-peer')
   wrtc = require('wrtc')
 
-  constructor(public db: AngularFireDatabase) {
+  constructor(public db: AngularFireDatabase, public router: Router) {
     this.hosts = db.list('hosts').valueChanges();
     this.reciever = db.list('reciever').valueChanges();
+
+    if (location.hash === '#/recording') {
+      this.peer = new this.SimplePeer({ wrtc: this.wrtc });
+      this.startCapture();
+    }
   }
   ngOnInit() {
-    if (location.hash === '#/recording') {
-      this.peer = new this.SimplePeer({ wrtc: this.wrtc })
-
-      this.db.object('hosts/content').query.once("value").then(data => {
-        console.log(JSON.parse(data.val()));
-        this.peer.signal(JSON.parse(data.val()));
-
+    if (location.hash === '#/recording#init') {
+      this.db.list('reciever').remove();
+      this.reciever.subscribe(data => {
+        if(this.peer){
+          this.peer.signal(JSON.parse(data.toString()));
+        }
       });
-      
-    } else if(location.hash === '#/recording#init') {
-      this.db.object('reciever/content').query.once("value").then(data => {
-        console.log(JSON.parse(data.val()));
-        this.peer.signal(JSON.parse(data.val()));
-    });
+    }
   }
-}
 
   private handleIncomingSignal(data: any) {
     if (location.hash === '#/recording#init') {
       this.db.object('hosts').update({ content: JSON.stringify(data) });
-    } else if (location.hash === '#/recording') {
-      this.db.object('reciever').update({ content: JSON.stringify(data) });
+    }
+    else if (location.hash === '#/recording') {
+      if(data.type === "answer"){
+        this.db.object('reciever').update({ content: JSON.stringify(data) });
+      }
     }
   }
 
-  async startCapture(db: AngularFireDatabase) {
+  async startCapture() {
     try {
-
-
       if (location.hash === '#/recording#init') {
         // let webcam = await navigator.mediaDevices.getUserMedia({ video: true, audio:true })
         let screenRecord = await navigator.mediaDevices.getDisplayMedia({ video: { cursor: "motion" } })
@@ -81,23 +76,24 @@ export class RecordingComponent implements OnInit {
         var options = { mimeType: "video/webm; codecs=vp9" };
         this.mediaRecorder = new MediaRecorder(screenRecord, options);
 
-        this.mediaRecorder.ondataavailable = (event) => {
-          console.log("data-available");
+        this.mediaRecorder.ondataavailable = (event : any) => {
           if (event.data.size > 0) {
             this.recordedChunks.push(event.data);
-            console.log(this.recordedChunks);
             this.download();
           }
         }
         this.mediaRecorder.start();
       }
-      this.peer.on('signal', (data) => this.handleIncomingSignal(data));
 
-      this.peer.on('data', (data) => {
+      this.peer.on('signal', (data : any) => {
+        this.handleIncomingSignal(data);
+      })
+
+      this.peer.on('data', (data : any) => {
         console.log('Received Data: ' + data)
       })
 
-      this.peer.on('stream', (stream) => {
+      this.peer.on('stream', (stream : any) => {
         this.videoElement.srcObject = stream
       })
     } catch (error) {
@@ -105,7 +101,11 @@ export class RecordingComponent implements OnInit {
     }
   }
   connect() {
-    this.peer.signal(this.targetpeer);
+    if (location.hash === '#/recording') {
+      this.db.object('hosts/content').query.once("value").then(data => {
+        this.peer.signal(data.val());
+      });
+    }
   }
   download() {
     var blob = new Blob(this.recordedChunks, {
@@ -120,7 +120,6 @@ export class RecordingComponent implements OnInit {
     a.click();
     window.URL.revokeObjectURL(url);
   }
-
   stopCapture() {
     if (this.videoElement.srcObject) {
       let webcamTracks = (<MediaStream>this.videoElement.srcObject).getTracks();
@@ -136,6 +135,7 @@ export class RecordingComponent implements OnInit {
       this.mediaRecorder.stop();
     }
   }
+
   @ViewChild('myvideo', { static: true }) videoElementRef: ElementRef;
   get videoElement(): HTMLVideoElement {
     return this.videoElementRef.nativeElement
