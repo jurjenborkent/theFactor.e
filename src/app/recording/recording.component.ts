@@ -24,37 +24,54 @@ export class RecordingComponent implements OnInit {
   recordedChunks: BlobPart[] = new Array()
   connectObject: any;
 
-  items: Observable<any[]>;
-  itemValue: '';
+  hosts: Observable<any[]>;
+  reciever: Observable<any[]>;
 
 
+  SimplePeer = require('simple-peer')
+  wrtc = require('wrtc')
 
   constructor(public db: AngularFireDatabase) {
-    this.items = db.list('items').valueChanges();
+    this.hosts = db.list('hosts').valueChanges();
+    this.reciever = db.list('reciever').valueChanges();
   }
   ngOnInit() {
-  }
+    if (location.hash === '#/recording') {
+      this.peer = new this.SimplePeer({ wrtc: this.wrtc })
 
-  private handleIncomingSignal(data: any) {
-    this.db.list('items').push({ content: data});
+      this.db.object('hosts/content').query.once("value").then(data => {
+        console.log(JSON.parse(data.val()));
+        this.peer.signal(JSON.parse(data.val()));
+
+      });
+      
+    } else if(location.hash === '#/recording#init') {
+      this.db.object('reciever/content').query.once("value").then(data => {
+        console.log(JSON.parse(data.val()));
+        this.peer.signal(JSON.parse(data.val()));
+    });
+  }
 }
 
-  onSubmit() {
-    this.db.list('items').push({ content: this.itemValue });
+  private handleIncomingSignal(data: any) {
+    if (location.hash === '#/recording#init') {
+      this.db.object('hosts').update({ content: JSON.stringify(data) });
+    } else if (location.hash === '#/recording') {
+      this.db.object('reciever').update({ content: JSON.stringify(data) });
+    }
   }
 
   async startCapture(db: AngularFireDatabase) {
     try {
-      const SimplePeer = require('simple-peer')
-      const wrtc = require('wrtc')
+
 
       if (location.hash === '#/recording#init') {
         // let webcam = await navigator.mediaDevices.getUserMedia({ video: true, audio:true })
         let screenRecord = await navigator.mediaDevices.getDisplayMedia({ video: { cursor: "motion" } })
-        this.peer = new SimplePeer({
+        this.peer = new this.SimplePeer({
           initiator: location.hash === '#/recording#init',
           stream: screenRecord,
-          wrtc: wrtc,
+          wrtc: this.wrtc,
           trickle: false
         })
 
@@ -74,14 +91,12 @@ export class RecordingComponent implements OnInit {
         }
         this.mediaRecorder.start();
       }
-      else {
-        this.peer = new SimplePeer({ wrtc: wrtc })
-      }
       this.peer.on('signal', (data) => this.handleIncomingSignal(data));
-      
+
       this.peer.on('data', (data) => {
         console.log('Received Data: ' + data)
       })
+
       this.peer.on('stream', (stream) => {
         this.videoElement.srcObject = stream
       })
