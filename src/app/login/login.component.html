@@ -1,1 +1,25 @@
-<p>login works!</p>
+<div class="fullscreen container-fluid">
+  <div class="row">
+    <div class="logo">
+      <img src="./src/assets/img/Logo.svg" alt="">
+    </div>
+    <div class="col-md-8 login-form">
+      <h2>Inloggen</h2>
+      <form class="" action="index.html" method="post">
+        <label for="email">E-mailadres:</label>
+        <input id="email" type="email" name="email" required>
+        <br />
+        <label for="wachtwoord">Wachtwoord:</label>
+        <a routerLink="/forgotPassword" class="forgot-password">Wachtwoord vergeten?</a>
+        <input id="wachtwoord" type="password" name="wachtwoord" required>
+        <br />
+        <div class="button-wrap">
+          <button routerLink="/home" type="submit" name="button" class="btn loginBtn">Login</button>
+        </div>
+        </form>
+    </div>
+    <div class="geen-account">
+      <p>Nog geen account? <a routerLink="/register">Registreer hier.</a></p>
+    </div>
+  </div>
+</div>
