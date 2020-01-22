@@ -1,9 +1,12 @@
+<div class="container-fluid">
 <div class="row">
+<div class="col">
   <div class="col d-flex justify-content-center" style="position:relative">
       <video #myvideo autoplay autoPictureInPicture class="video mb-2" style="width:100%"></video>
       <button #mybutton class="pipbtn" (click)="PIP()"></button>
       <video #myvideo2 autoplay controls class="video mb-2" style="width:100%"></video>
   </div>
+  <div class="col"
 </div>
 <div class="row">
   <div class="col d-flex justify-content-center">
@@ -12,3 +15,6 @@
   </div>
 </div>
 <p><button (click)="startCapture()">Start Capture</button>&nbsp;<button (click)="stopCapture()">Stop Capture</button></p>
+</div>
+
+
