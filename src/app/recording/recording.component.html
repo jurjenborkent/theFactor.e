@@ -1,25 +1,25 @@
-
 <div class="container-fluid">
   <div class="row">
     <div class="col-12 flex justify-content-center">
       <div class="buttonContainer">
-        <img src="./src/assets/img/PlayButton.svg" alt="" class="playButton" (click)="startCapture()">
-        <img src="./src/assets/img/StopButton.svg" alt="" class="stopButton" (click)="stopCapture()">
-        <div class="connectContainer">
-        <button class="btn btn-success" (click)="connect()">Connect</button>
-      </div>
+        <div (click)="startCapture()">
+          <img src="./src/assets/img/PlayButton.svg" alt="" class="playButton" >
+        </div>
+        <div (click)="stopCapture()">
+          <img src="./src/assets/img/StopButton.svg" alt="" class="stopButton" >
+        </div>
     </div>
     </div>
   </div>
     <div class="row">
       <div class="col-9">
         <div class="screenCapture">
-          <button #mybutton class="pipbtn" (click)="PIP()"></button>
           <video #myvideo2 autoplay controls class="video mb-2" style="width:100%"></video>
         </div>
       </div>
       <div class="col-3">
         <div class="webcam">
+          <button #mybutton class="pipbtn" (click)="PIP()"></button>
           <video #myvideo autoplay autoPictureInPicture class="video mb-2" id="webcam" style="width:100%"></video>
         </div>
       </div>

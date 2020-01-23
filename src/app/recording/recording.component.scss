@@ -15,13 +15,20 @@
   position: absolute;
   right:5px;
   top: 5px;
+
+  z-index: 99999;
 }
 
+.buttonContainer > div{
+  display: inline-block;
+}
+.buttonContainer > div:hover{
+  cursor: pointer;
+}
 .buttonContainer {
   text-align: center;
   margin-top:10px;
   margin-bottom:10px;
- 
 }
 
 .playButton {
