@@ -29,61 +29,50 @@ export class RecordingComponent implements OnInit {
   constructor(public db: AngularFireDatabase, public router: Router) {
     this.hosts = db.list('hosts').valueChanges();
     this.reciever = db.list('reciever').valueChanges();
-
-    if (location.hash === '#/recording') {
-      this.peer = new this.SimplePeer({ wrtc: this.wrtc });
-      this.startCapture();
-    }
   }
 
   ngOnInit() {
-    if (location.hash === '#/recording#init') {
-      this.db.list('reciever').remove();
-      this.reciever.subscribe(data => {
-        if(this.peer){
-          this.peer.signal(JSON.parse(data.toString()));
-        }
-      });
-    }
+    this.db.list('reciever').remove();
+    this.reciever.subscribe(data => {
+      if(this.peer){
+        //TODO: Fix?
+        // console.error("REEE", JSON.parse(data.toString()))
+        this.peer.signal(JSON.parse(data.toString()));
+      }
+    });
   }
 
   private handleIncomingSignal(data: any) {
-    if (location.hash === '#/recording#init') {
       this.db.object('hosts').update({ content: JSON.stringify(data) });
-    }
-    else if (location.hash === '#/recording') {
-      if(data.type === "answer"){
-        this.db.object('reciever').update({ content: JSON.stringify(data) });
-      }
-    }
   }
 
   async startCapture() {
     try {
-      if (location.hash === '#/recording#init') {
-        // let webcam = await navigator.mediaDevices.getUserMedia({ video: true, audio:true })
-        let screenRecord = await navigator.mediaDevices.getDisplayMedia({ video: { cursor: "motion" } })
-        this.peer = new this.SimplePeer({
-          initiator: location.hash === '#/recording#init',
-          stream: screenRecord,
-          wrtc: this.wrtc,
-          trickle: false
-        })
+      let webcam = await navigator.mediaDevices.getUserMedia({ video: true, audio:false })
+      let screenRecord = await navigator.mediaDevices.getDisplayMedia({ video: { cursor: "motion" } })
 
-        // this.videoElement.srcObject = webcam
-        this.videoElement2.srcObject = screenRecord
+      this.peer = new this.SimplePeer({
+        initiator: location.hash === '#/recording#init',
+        stream: screenRecord,
+        wrtc: this.wrtc,
+        trickle: false
+      })
 
-        var options = { mimeType: "video/webm; codecs=vp9" };
-        this.mediaRecorder = new MediaRecorder(screenRecord, options);
-
-        this.mediaRecorder.ondataavailable = (event : any) => {
-          if (event.data.size > 0) {
-            this.recordedChunks.push(event.data);
-            this.download();
-          }
-        }
-        this.mediaRecorder.start();
+      if(webcam){
+        this.videoElement.srcObject = webcam
       }
+      this.videoElement2.srcObject = screenRecord
+
+      var options = { mimeType: "video/webm; codecs=vp9" };
+      this.mediaRecorder = new MediaRecorder(screenRecord, options);
+
+      this.mediaRecorder.ondataavailable = (event : any) => {
+        if (event.data.size > 0) {
+          this.recordedChunks.push(event.data);
+          this.download();
+        }
+      }
+      this.mediaRecorder.start();
 
       this.peer.on('signal', (data : any) => {
         this.handleIncomingSignal(data);
@@ -100,13 +89,7 @@ export class RecordingComponent implements OnInit {
       console.error('ERROR', error)
     }
   }
-  connect() {
-    if (location.hash === '#/recording') {
-      this.db.object('hosts/content').query.once("value").then(data => {
-        this.peer.signal(data.val());
-      });
-    }
-  }
+
   download() {
     var blob = new Blob(this.recordedChunks, {
       type: "video/webm"
