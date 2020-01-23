@@ -40,10 +40,12 @@
   background-color:white;
   color:black;
   position: fixed;
- 
   text-align: center;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.btn.btn-success {
+background-color:black;
 }

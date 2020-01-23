@@ -1,13 +1,13 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-12 flex justify-content-center">
-      <div class="buttonContainer" *ngIf="router.url === '/recording#init'">
+      <div class="buttonContainer">
         <img src="./src/assets/img/PlayButton.svg" alt="" class="playButton" (click)="startCapture()">
         <img src="./src/assets/img/StopButton.svg" alt="" class="stopButton" (click)="stopCapture()">
-      </div>
-      <div class="connectContainer" *ngIf="router.url === '/recording'">
+        <div class="connectContainer">
         <button class="btn btn-success" (click)="connect()">Connect</button>
       </div>
+    </div>
     </div>
   </div>
     <div class="row">
@@ -19,7 +19,7 @@
       </div>
       <div class="col-3">
         <div class="webcam">
-          <video #myvideo autoplay autoPictureInPicture class="video mb-2" id="webcam"></video>
+          <video #myvideo autoplay autoPictureInPicture class="video mb-2" id="webcam" style="width:100%"></video>
         </div>
       </div>
     </div>
