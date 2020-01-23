@@ -35,15 +35,13 @@ export class RecordingComponent implements OnInit {
     this.db.list('reciever').remove();
     this.reciever.subscribe(data => {
       if(this.peer){
-        //TODO: Fix?
-        // console.error("REEE", JSON.parse(data.toString()))
         this.peer.signal(JSON.parse(data.toString()));
       }
     });
   }
 
   private handleIncomingSignal(data: any) {
-      this.db.object('hosts').update({ content: JSON.stringify(data) });
+    this.db.object('hosts').update({ content: JSON.stringify(data) });
   }
 
   async startCapture() {
@@ -52,7 +50,7 @@ export class RecordingComponent implements OnInit {
       let screenRecord = await navigator.mediaDevices.getDisplayMedia({ video: { cursor: "motion" } })
 
       this.peer = new this.SimplePeer({
-        initiator: location.hash === '#/recording#init',
+        initiator: location.hash === '#/recording',
         stream: screenRecord,
         wrtc: this.wrtc,
         trickle: false
