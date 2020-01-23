@@ -1,0 +1,32 @@
+<div id="nav">
+  <div class="navigation-overlay"></div>
+  <div class="navigation">
+      <div class="menu-btn" (click)="open_nav()"> <span></span> <span></span> <span></span> <span></span> </div>
+      <div class="navigation-inner">
+          <nav class="nav-main">
+              <ul id="menu-primair-menu" class="menu">
+                  <li class="menu-item">
+                    <a routerLink="home" routerLinkActive="active" aria-current="page">Homepage</a>
+                  </li>
+                  <li class="menu-item">
+                    <a routerLink="newTest" routerLinkActive="active" aria-current="page">Nieuw Project</a>
+                  </li>
+                  <li class="menu-item">
+                    <a routerLink="customer" routerLinkActive="active" aria-current="page">Bestaande Klanten</a>
+                  </li>
+                  <li class="menu-item">
+                    <a routerLink="question" routerLinkActive="active" aria-current="page">Vragenlijsten</a>
+                  </li>
+                  <li class="menu-item">
+                    <a routerLink="sendToCustomer" routerLinkActive="active" aria-current="page">Streamen</a>
+                  </li>
+              </ul>
+              <ul class="logout">
+                  <li class="menu-item">
+                    <a (click)="logout()" aria-current="page">Log uit</a>
+                  </li>
+              </ul>
+          </nav>
+      </div>
+  </div>
+</div>

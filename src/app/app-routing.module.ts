@@ -18,7 +18,7 @@ import { TosComponent }   from './tos/tos.component';
 import { RecordingComponent }   from './recording/recording.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path:'home', component: HomeComponent},
   {path:'note', component: NoteComponent},
   {path:'question', component: QuestionComponent},
@@ -37,7 +37,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes ,{ useHash: true })],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

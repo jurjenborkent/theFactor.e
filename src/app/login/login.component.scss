@@ -1,0 +1,66 @@
+@font-face {
+  font-family: Akkurat;
+  src: url('./src/assets/Akkurat.ttf');
+}
+*{
+  font-family: Akkurat;
+}
+a{
+  color: #0E8EEB;
+  text-decoration: none;
+}
+
+.logo img{
+  filter: invert(1);
+  width:272px;
+}
+.fullscreen{
+  background-color: #262626;
+  color:#FFFFFF;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.login-form{
+  margin:0 auto;
+  max-width:510px;
+  text-align: left;
+  padding:30px;
+}
+.login-form input{
+  text-indent: 10px;
+  display: block;
+  font-size: 16pt;
+  line-height: 48px;
+  border-radius: 3px;
+  border:0;
+  box-shadow: 0 4px 19px 0 rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
+  width:100%;
+  margin-top:10px;
+}
+.login-form .button-wrap{
+  margin: 0 auto;
+  text-align: center;
+}
+.login-form .loginBtn{
+  width: 155px;
+  line-height: 48px;
+  border:0;
+  border-radius: 3px;
+  margin:30px auto;
+  font-size: 16pt;
+}
+.login-form .loginBtn:hover{ cursor:pointer; }
+.forgot-password{
+  float: right;
+}
+.geen-account{
+  font-weight: 100;
+}

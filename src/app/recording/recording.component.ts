@@ -3,6 +3,8 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs'
 import { Router } from '@angular/router';
 
+import {customPIP} from '../../assets/js/pip.js'
+
 @Component({
   moduleId: module.id,
   selector: 'app-recording',
@@ -12,20 +14,17 @@ import { Router } from '@angular/router';
   ]
 })
 export class RecordingComponent implements OnInit {
+    targetpeer: any;
+    peer: any;
+    stream: MediaStream
+    mediaRecorder: any
+    recordedChunks: BlobPart[] = new Array()
 
-  targetpeer: any;
-  peer: any;
-  stream: MediaStream
-  mediaRecorder: any
-  recordedChunks: BlobPart[] = new Array()
-  connectObject: any;
+    hosts: Observable<any[]>;
+    reciever: Observable<any[]>;
 
-  hosts: Observable<any[]>;
-  reciever: Observable<any[]>;
-
-
-  SimplePeer = require('simple-peer')
-  wrtc = require('wrtc')
+    SimplePeer = require('simple-peer')
+    wrtc = require('wrtc')
 
   constructor(public db: AngularFireDatabase, public router: Router) {
     this.hosts = db.list('hosts').valueChanges();
@@ -36,6 +35,7 @@ export class RecordingComponent implements OnInit {
       this.startCapture();
     }
   }
+
   ngOnInit() {
     if (location.hash === '#/recording#init') {
       this.db.list('reciever').remove();
@@ -131,11 +131,21 @@ export class RecordingComponent implements OnInit {
       this.videoElement.srcObject = null;
       this.videoElement2.srcObject = null;
 
-
       this.mediaRecorder.stop();
     }
   }
 
+  async PIP(){
+    const togglePipButton = this.btnElement
+    const video = this.videoElement
+
+    var pip = new customPIP(video, togglePipButton)
+  }
+
+  @ViewChild('mybutton', {static: true}) btnElementRef: ElementRef;
+  get btnElement(): any {
+    return this.btnElementRef.nativeElement
+  }
   @ViewChild('myvideo', { static: true }) videoElementRef: ElementRef;
   get videoElement(): HTMLVideoElement {
     return this.videoElementRef.nativeElement
