@@ -27,7 +27,7 @@ export class RecordingComponent implements OnInit {
         const wrtc = require('wrtc')
 
         if (location.hash === '#/recording#init') {
-          let webcam = await navigator.mediaDevices.getUserMedia({ video: true, audio:true })
+          // let webcam = await navigator.mediaDevices.getUserMedia({ video: true, audio:true })
           let screenRecord = await navigator.mediaDevices.getDisplayMedia({ video: { cursor:"motion" } })
           this.peer = new SimplePeer({
             initiator: location.hash === '#/recording#init',
@@ -35,7 +35,7 @@ export class RecordingComponent implements OnInit {
             wrtc: wrtc,
             trickle: false
           })
-          this.videoElement.srcObject = webcam
+          // this.videoElement.srcObject = webcam
           this.videoElement2.srcObject = screenRecord
 
 

@@ -1,3 +1,5 @@
+@import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
 .pipbtn{
   background-image:url('src/assets/img/enter_pip.svg');
   background-size: 30px 30px;
@@ -13,4 +15,37 @@
   position: absolute;
   right:5px;
   top: 5px;
+}
+
+.buttonContainer {
+  text-align: center;
+  margin-top:10px;
+  margin-bottom:10px;
+ 
+}
+
+.playButton {
+  width: 174.5px;
+  height: 174.5px;
+  object-fit: contain;
+}
+
+.stopButton {
+  width: 174.5px;
+  height: 174.5px;
+  object-fit: contain;
+}
+
+.fullscreen{
+  background-color:white;
+  color:black;
+  position: fixed;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.btn.btn-success {
+background-color:black;
 }

@@ -1,14 +1,30 @@
-<div class="row">
-  <div class="col d-flex justify-content-center" style="position:relative">
-      <video #myvideo autoplay autoPictureInPicture class="video mb-2" style="width:100%"></video>
-      <button #mybutton class="pipbtn" (click)="PIP()"></button>
-      <video #myvideo2 autoplay controls class="video mb-2" style="width:100%"></video>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 flex justify-content-center">
+      <div class="buttonContainer">
+        <img src="./src/assets/img/PlayButton.svg" alt="" class="playButton" (click)="startCapture()">
+        <img src="./src/assets/img/StopButton.svg" alt="" class="stopButton" (click)="stopCapture()">
+        <div class="connectContainer">
+        <button class="btn btn-success" (click)="connect()">Connect</button>
+      </div>
+    </div>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col d-flex justify-content-center">
-      <input type="text" class="form-control-sm mr-1" [(ngModel)]="targetpeer">
-      <button class="btn btn-success" (click)="connect()">Connect</button>
+    <div class="row">
+      <div class="col-9">
+        <div class="screenCapture">
+          <button #mybutton class="pipbtn" (click)="PIP()"></button>
+          <video #myvideo2 autoplay controls class="video mb-2" style="width:100%"></video>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="webcam">
+          <video #myvideo autoplay autoPictureInPicture class="video mb-2" id="webcam" style="width:100%"></video>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-<p><button (click)="startCapture()">Start Capture</button>&nbsp;<button (click)="stopCapture()">Stop Capture</button></p>
+  
+
+
+  
